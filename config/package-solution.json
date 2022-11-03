@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "survey-pnpjs-client-side-solution",
+    "id": "c26c4ffb-a83b-4bc3-9b50-1a2c4eb8bbc4",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.15.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "survey-pnpjs description"
+      },
+      "longDescription": {
+        "default": "survey-pnpjs description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "survey-pnpjs Feature",
+        "description": "The feature that activates elements of the survey-pnpjs solution.",
+        "id": "3b121bfe-aba7-4cd1-a668-8da15cd9e443",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/survey-pnpjs.sppkg"
+  }
+}
