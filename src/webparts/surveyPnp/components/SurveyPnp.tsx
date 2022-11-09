@@ -1,6 +1,5 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable dot-notation */
-/* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-floating-promises */
@@ -21,7 +20,7 @@ import Response from './response/Response';
 const SurveyPnp = (props: ISurveyPnpProps) => {
   const [user, setUser] = React.useState({ email: props.context.pageContext.user.email, name: props.context.pageContext.user.displayName })
   const [time, setTime] = React.useState(dayjs(Date()).format('DD/MM/YYYY - HH:mm:ss'));
-  const [question, setQuestion] = React.useState({ answered: false, ques1: '', ques2: '', ques3: '', ques4: '' })
+  const [question, setQuestion] = React.useState(false)
   const [openQuestion, setOpenQuestion] = React.useState(false)
   const [openResponse, setOpenResponse] = React.useState(false)
 
@@ -32,21 +31,13 @@ const SurveyPnp = (props: ISurveyPnpProps) => {
 
   const getAnswerList = async () => {
     const items = await getAnswer(props.context, user.email)
-    var output1: string[] = [];
-    var output2: string[] = [];
-    var output3: string[] = [];
-    var output4: string[] = [];
-    var output5: boolean
-    for (var i = 0; i < items.length; ++i) {
-      output1 = items[i]['AnswerOne']
-      output2 = items[i]['AnswerTwo']
-      output3 = items[i]['AnswerThree']
-      output4 = items[i]['AnswerFour']
-      output5 = items[i]['AnswerSurvey']
+    for (let i = 0; i < items.length; ++i) {
+      setAns1(items[i]['AnswerOne'])
+      setAns2(items[i]['AnswerTwo'])
+      setAns3(items[i]['AnswerThree'])
+      setAns4(items[i]['AnswerFour'])
+      setQuestion(items[i]['AnswerSurvey'])
     }
-    console.log(items)
-    setQuestion({ answered: output5, ques1: output1.toString(), ques2: output2.toString(), ques3: output3.toString(), ques4: output4.toString() })
-    console.log("asdasd", question)
   }
 
   const ShowSurvey = () => {
@@ -54,7 +45,11 @@ const SurveyPnp = (props: ISurveyPnpProps) => {
   }
 
   const ShowResponse = () => {
-    setOpenResponse(true)
+    if (openResponse === true) {
+      setOpenResponse(false)
+    }
+    else
+      setOpenResponse(true)
   }
 
   React.useEffect(() => {
@@ -63,7 +58,7 @@ const SurveyPnp = (props: ISurveyPnpProps) => {
       setTime(dayjs(Date()).format('DD/MM/YYYY - HH:mm:ss'))
     }, 1000)
 
-  }, [question.answered])
+  }, [question])
 
 
   return (
@@ -74,10 +69,10 @@ const SurveyPnp = (props: ISurveyPnpProps) => {
           <label><b>Full Name:</b> {user.name}</label>
           <label><b>Current Time:</b> {time}</label>
         </div>
-        {question.answered === false ? (<button onClick={ShowSurvey}>Start Survey</button>) : <button onClick={ShowResponse}>View My Response</button>}
+        {(question === false || question === undefined) ? <button onClick={ShowSurvey}>Start Survey</button> : <button onClick={ShowResponse}>View My Response</button>}
       </div>
-      {openQuestion && <Question context={props.context}></Question>}
-      {openResponse && <Response ques1={question.ques1} ques2={question.ques2} ques3={question.ques3} ques4={question.ques4}></Response>}
+      {openQuestion && <Question context={props.context} ></Question>}
+      {openResponse && <Response ques1={Ans1} ques2={Ans2} ques3={Ans3} ques4={Ans4}></Response>}
     </div>
   )
 }

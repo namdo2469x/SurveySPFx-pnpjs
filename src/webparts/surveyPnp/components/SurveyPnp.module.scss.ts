@@ -1,13 +1,13 @@
 /* tslint:disable */
 require("./SurveyPnp.module.css");
 const styles = {
-  container: 'container_944f1696',
-  header: 'header_944f1696',
-  info: 'info_944f1696',
-  question: 'question_944f1696',
-  item: 'item_944f1696',
-  buttongroup: 'buttongroup_944f1696',
-  response: 'response_944f1696'
+  container: 'container_24a2b953',
+  header: 'header_24a2b953',
+  info: 'info_24a2b953',
+  question: 'question_24a2b953',
+  item: 'item_24a2b953',
+  buttongroup: 'buttongroup_24a2b953',
+  response: 'response_24a2b953'
 };
 
 export default styles;

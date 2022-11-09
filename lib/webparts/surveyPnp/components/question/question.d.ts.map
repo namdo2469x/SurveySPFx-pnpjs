@@ -1,1 +1,1 @@
-{"version":3,"file":"Question.d.ts","sourceRoot":"","sources":["../../../../../src/webparts/surveyPnp/components/question/Question.tsx"],"names":[],"mappings":";AAWA,OAAO,EAAE,eAAe,EAAE,MAAM,oBAAoB,CAAC;AAMrD,QAAA,MAAM,QAAQ,UAAW,eAAe,gBAgQvC,CAAA;AAED,eAAe,QAAQ,CAAA"}
+{"version":3,"file":"Question.d.ts","sourceRoot":"","sources":["../../../../../src/webparts/surveyPnp/components/question/Question.tsx"],"names":[],"mappings":";AAYA,OAAO,EAAE,eAAe,EAAE,MAAM,oBAAoB,CAAC;AAIrD,QAAA,MAAM,QAAQ,UAAW,eAAe,gBAuPvC,CAAA;AAED,eAAe,QAAQ,CAAA"}

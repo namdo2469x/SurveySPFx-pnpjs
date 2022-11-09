@@ -6,6 +6,10 @@
     align-items: center;
     justify-content: space-between;
 
+    button {
+      margin: 0 !important;
+    }
+
     .info {
       display: flex;
       flex-direction: column;
@@ -36,7 +40,6 @@
   .question {
     margin: 30px auto;
     background-color: #AECFFF;
-    width: 664px;
     height: 300px;
     display: flex;
     align-items: center;

@@ -1,7 +1,7 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-var */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -9,11 +9,10 @@ import * as React from 'react';
 import styles from '../SurveyPnp.module.scss';
 import { defaultDatePickerStrings, Rating, RatingSize } from '@fluentui/react';
 import { Checkbox, DatePicker } from '@fluentui/react';
-import { ISurveyPnpProps } from '../ISurveyPnpProps';
 import { submit } from '../../../../services/services';
+import { ISurveyPnpProps } from '../ISurveyPnpProps';
 
-var checkOption: any[] = []
-var str: string
+let checkOption: any[] = []
 
 const Question = (props: ISurveyPnpProps) => {
     const [ques1, setQues1] = React.useState(true)
@@ -22,25 +21,15 @@ const Question = (props: ISurveyPnpProps) => {
     const [ques3, setQues3] = React.useState(false)
     const [ques4, setQues4] = React.useState(false)
     const [complete, setComplete] = React.useState(false)
-    const [birthday, setBirthDay] = React.useState({ year: '', month: '' })
-
-    interface ICheckboxInput {
-        ID?: number;
-        Title: string;
-        isChecked?: boolean;
-    }
-    const option: ICheckboxInput[] = [
-        { ID: 1, Title: 'C#' },
+    const [year, setYear] = React.useState('')
+    const [month, setMonth] = React.useState('')
+    const [option, setOption] = React.useState(
+        [{ ID: 1, Title: 'C#' },
         { ID: 2, Title: 'Java' },
         { ID: 3, Title: 'PHP' },
         { ID: 4, Title: 'Python' },
-        { ID: 5, Title: 'R' }
-    ]
+        { ID: 5, Title: 'R' }])
 
-    /* var Ans1: string = null
-    var Ans2: string = null
-    var Ans3: string = null
-    var Ans4: string = null */
     const [Ans1, setAns1] = React.useState("")
     const [Ans2, setAns2] = React.useState([])
     const [Ans3, setAns3] = React.useState("")
@@ -57,6 +46,7 @@ const Question = (props: ISurveyPnpProps) => {
         else if (ques2 === true) {
             setQues2(false)
             setQues1(true)
+            checkOption = []
         }
     }
 
@@ -69,7 +59,6 @@ const Question = (props: ISurveyPnpProps) => {
             setQues1(false)
             setQues3(true)
             setAns1('Go to Question 3')
-            console.log(Ans1)
         }
         else if (ques3 === false && ques2 === true && checkCond === false) {
             setQues3(true)
@@ -80,6 +69,7 @@ const Question = (props: ISurveyPnpProps) => {
             setQues2(true)
             setQues3(false)
             setCheckCond(false)
+            checkOption = []
         }
     }
 
@@ -100,33 +90,35 @@ const Question = (props: ISurveyPnpProps) => {
             setAns2(checkOption)
         }
         else if (!isChecked) {
-            for (var i = 0; i < checkOption.length; i++) {
+            for (let i = 0; i < checkOption.length; i++) {
                 if (checkOption[i] === e.currentTarget.title) {
                     checkOption.splice(i, 1);
                     setAns2(checkOption)
                 }
             }
         }
-        console.log(Ans2)
     }
 
     const handleDatePicker = (e: Date) => {
-        var date = new Date();
-        var date1 = e
+        let date = new Date();
+        let date1 = e
         date1.getFullYear()
-        setBirthDay({ year: ((date.getFullYear() - date1.getFullYear())).toString(), month: (date.getMonth() - date1.getMonth() + 1).toString() })
-        setAns3("You are " + birthday.year + " and " + birthday.month + " months old")
-        console.log(Ans3)
-        console.log(birthday.year, " & ", birthday.month)
+        setAns3("You are " + (date.getFullYear() - date1.getFullYear()).toString() + " years and " + (date.getMonth() - date1.getMonth() + 1).toString() + " months old")
+        setYear(((date.getFullYear() - date1.getFullYear())).toString())
+        setMonth((date.getMonth() - date1.getMonth() + 1).toString())
     }
 
     const handleRating = (e: any, rating: number) => {
-        setAns4(rating.toString())
+        setAns4(`${rating.toString()} stars`)
         console.log(Ans4)
     }
 
     const submitSurvey = async () => {
+        await submit(props.context, props.context.pageContext.user.email, props.context.pageContext.user.displayName, true, Ans1, Ans2.toString(), Ans3, Ans4)
+        setComplete(true)
+        setQues4(false)
     }
+
     return (
         <div className={styles.question}>
             {ques1 &&
@@ -156,9 +148,9 @@ const Question = (props: ISurveyPnpProps) => {
                             </div>
                             <div>
                                 {
-                                    option.map((checkBoxItem: ICheckboxInput, index: number) => {
+                                    option.map((item, index: number) => {
                                         return (
-                                            <Checkbox key={index} defaultChecked={checkBoxItem.isChecked} label={checkBoxItem.Title} title={checkBoxItem.Title} onChange={handleCheckBox} />
+                                            <Checkbox key={index} label={item.Title} title={item.Title} onChange={handleCheckBox} />
                                         );
                                     })
                                 }
@@ -198,7 +190,7 @@ const Question = (props: ISurveyPnpProps) => {
                                     showMonthPickerAsOverlay={true}
                                     onSelectDate={handleDatePicker}
                                 />
-                                <label>You are {birthday.year} years and {birthday.month} months old</label>
+                                <label>You are {year} years and {month} months old</label>
                             </div>
                         </div>
                         <div className={styles.buttongroup}>
@@ -256,9 +248,13 @@ const Question = (props: ISurveyPnpProps) => {
             {complete &&
                 (
                     <div>
-                        You have completed the survey <br />
-                        Thank you!
-                        Reload to view you response
+                        <h2>
+                            You have completed the survey
+                            <br />
+                            Thank you!
+                            <br />
+                            Reload the page to view your response
+                        </h2>
                     </div>
                 )
             }
